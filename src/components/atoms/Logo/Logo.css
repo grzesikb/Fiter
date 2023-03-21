@@ -1,0 +1,10 @@
+.Logo {
+  color: #fff;
+  font-weight: 700;
+  font-size: 64px;
+  line-height: 77px;
+  letter-spacing: -0.065em;
+}
+.Logo:hover {
+  cursor: pointer;
+}

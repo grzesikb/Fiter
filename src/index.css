@@ -1,13 +1,26 @@
+#root {
+  --background: #000000;
+  --background-brighter: #18181a;
+  --font-white: #d9d9d9;
+  --font-grey: #999999;
+  --color-calories: #ffcece;
+  --color-whey: #cef3ff;
+  --color-fats: #ffebce;
+  --color-carbohydrates: #e7ceff;
+  --font-weight: 500;
+  --button-hover: #36363a;
+  --border-input: 2px;
+  --transition: 0.5s cubic-bezier(0.67, 0, 0.4, 1.2);
+}
+html,
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  padding: 0;
+  background-color: var(--background);
+}
+* {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
 }

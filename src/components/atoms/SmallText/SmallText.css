@@ -1,0 +1,5 @@
+.SmallText {
+  font-size: 14px;
+  font-weight: var(--font-weight);
+  color: var(--font-grey);
+}

@@ -1,0 +1,17 @@
+.AppInput {
+  font-size: 14px;
+  color: var(--font-grey);
+  background-color: transparent;
+  line-height: 40px;
+  font-weight: var(--font-weight);
+  padding-left: 18px;
+  letter-spacing: -0.41px;
+  border: none;
+  border-bottom: var(--border-input) solid var(--font-grey);
+}
+.AppInput:focus {
+  border: none;
+  outline: none;
+  color: var(--font-white);
+  border-bottom: var(--border-input) solid var(--font-white);
+}

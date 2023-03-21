@@ -1,0 +1,15 @@
+.AppButton {
+  height: 47px;
+  background-color: var(--background-brighter);
+  color: var(--font-white);
+  font-size: 14px;
+  font-weight: var(--font-weight);
+  border: none;
+  border-radius: 11px;
+  transition: var(--transition);
+  filter: drop-shadow(0px 4px 30px rgba(0, 0, 0, 0.03));
+}
+.AppButton:hover {
+  cursor: pointer;
+  background-color: var(--button-hover);
+}

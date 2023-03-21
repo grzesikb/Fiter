@@ -1,0 +1,6 @@
+.Main {
+  display: block;
+  position: relative;
+  height: 100vh;
+  background-color: var(--background);
+}

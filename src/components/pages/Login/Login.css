@@ -1,0 +1,54 @@
+.Login {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--background);
+  align-items: center;
+  justify-content: center;
+}
+.Login form {
+  position: absolute;
+  top: 13.34%;
+  /* right: 38.12%;
+  left: 38.12%; */
+  width: 456px;
+  text-align: center;
+  transition: var(--transition);
+}
+
+.Logo,
+.AppButton,
+.loginText {
+  display: block;
+  width: 100%;
+}
+.AppInput {
+  width: 90%;
+}
+.AppInput:nth-child(odd) {
+  margin-top: 35px;
+}
+.AppInput:nth-child(even) {
+  margin-top: 10px;
+}
+.AppButton {
+  margin-top: 40px;
+}
+.Login form div {
+  margin-top: 18px;
+}
+.Login form div text:nth-child(2) {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.loginText {
+  color: var(--font-white) !important;
+  letter-spacing: 0.19em;
+  margin-top: 18px;
+}
+
+@media (max-width: 850px) {
+  .Login form {
+    width: 304px;
+  }
+}
