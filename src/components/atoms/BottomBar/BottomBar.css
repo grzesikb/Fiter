@@ -1,0 +1,50 @@
+.BottomBar {
+  z-index: 2;
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  height: 10%;
+  min-height: 77px;
+  border-radius: 11px 11px 0 0;
+  font-size: 16px;
+  background-color: var(--background-brighter);
+  justify-content: center;
+  text-align: left;
+}
+.BottomBarSpecifies {
+  display: flex;
+  width: 400px;
+  color: var(--font-white);
+  font-weight: 600;
+  align-items: center;
+  justify-content: space-between;
+}
+.BottomBarSpecifies div:nth-child(1) {
+  color: var(--color-calories);
+}
+.BottomBarSpecifies div:nth-child(2) {
+  color: var(--color-proteins);
+}
+.BottomBarSpecifies div:nth-child(3) {
+  color: var(--color-fats);
+}
+.BottomBarSpecifies div:nth-child(4) {
+  color: var(--color-carbohydrates);
+}
+.BottomBarSpecifies text {
+  display: block;
+  color: var(--font-grey);
+}
+
+@media (max-width: 420px) {
+  .BottomBarSpecifies {
+    width: 310px;
+  }
+}
+@media (max-width: 320px) {
+  .BottomBarSpecifies {
+    width: 290px;
+  }
+}

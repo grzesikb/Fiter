@@ -6,16 +6,16 @@ import { AppInput } from "../../atoms/AppInput/AppInput";
 import { Logo } from "../../atoms/Logo/Logo";
 const Login = () => {
   return (
-    <div className="Login">
+    <div className={"Login"}>
       <form>
         <Logo />
-        <SmallText content="LOGOWANIE" customClassName="loginText" />
-        <AppInput placeholder="Login" />
-        <AppInput placeholder="Hasło" />
+        <SmallText content={"LOGOWANIE"} customClassName={"loginText"} />
+        <AppInput placeholder={"Login"} />
+        <AppInput placeholder={"Hasło"} />
         <AppButton textContext={"Zaloguj się"} />
         <div>
-          <SmallText content="Nie masz konta? " />
-          <SmallText content="Utwórz je teraz " />
+          <SmallText content={"Nie masz konta? "} />
+          <SmallText content={"Utwórz je teraz "} />
         </div>
       </form>
     </div>

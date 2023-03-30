@@ -11,7 +11,7 @@ export interface Props {
 export const AppInput = (props: Props) => {
   return (
     <input
-      type="text"
+      type={"text"}
       placeholder={props.placeholder}
       className={"AppInput " + props.customClassName}
       style={props.customStyles}

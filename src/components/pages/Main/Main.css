@@ -1,6 +1,79 @@
 .Main {
-  display: block;
-  position: relative;
-  height: 100vh;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
   background-color: var(--background);
+}
+.Navbar {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  position: fixed;
+  top: 11vh;
+  left: 9%;
+  right: 9%;
+  background-color: var(--background);
+}
+.Logo {
+  grid-area: 1 / 1 / 2 / 2;
+}
+.Search {
+  grid-area: 2 / 1 / 3 / 3;
+  margin-top: 30px;
+}
+.Icons {
+  grid-area: 1 / 2 / 2 / 3;
+  position: absolute;
+  right: 0;
+  padding: 26px 0;
+}
+.Icons img:nth-child(2) {
+  margin-left: 46px;
+}
+.NavbarSpace {
+  z-index: 2;
+  position: fixed;
+  width: 100vw;
+  height: calc(11vh + 200px);
+  background-color: var(--background);
+}
+.List {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  top: calc(11vh + 220px);
+}
+.List .SmallText {
+  padding-left: 9%;
+}
+.List .ProductPanel:nth-child(1) {
+  margin-top: 20px;
+}
+@media (max-width: 420px) {
+  .BottomBar {
+    font-size: 14px !important;
+  }
+  .Logo {
+    font-size: 44px !important;
+    line-height: 50px !important;
+  }
+  .Icons {
+    padding: 10px 0;
+  }
+  .Icons img:nth-child(2) {
+    margin-left: 30px;
+  }
+  .Navbar {
+    top: 6vh;
+    grid-template-rows: repeat(2, 0fr);
+  }
+  .NavbarSpace {
+    height: calc(9vh + 150px);
+  }
+  .List {
+    top: calc(9vh + 160px);
+  }
 }

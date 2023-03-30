@@ -1,0 +1,9 @@
+.AppIcon {
+  width: auto;
+  height: 34px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.AppIcon:hover {
+  transform: scale(1.2);
+}

@@ -1,0 +1,29 @@
+.Search {
+  display: flex;
+  position: relative;
+  top: 20%;
+  justify-content: center;
+}
+.Search img {
+  position: absolute;
+  top: 19px;
+  left: 25px;
+}
+.SearchBar {
+  font-size: 14px;
+  color: var(--font-grey);
+  background-color: var(--background-brighter);
+  border-radius: 11px;
+  line-height: 47px;
+  font-weight: var(--font-weight);
+  padding-left: 55px;
+  letter-spacing: -0.41px;
+  border: none;
+  width: 100%;
+}
+
+.SearchBar:focus {
+  border: none;
+  outline: none;
+  color: var(--font-white);
+}
