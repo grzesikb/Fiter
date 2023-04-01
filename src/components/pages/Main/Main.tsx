@@ -6,6 +6,14 @@ import { AppIcon } from "../../atoms/AppIcon/AppIcon";
 import { SmallText } from "../../atoms/SmallText/SmallText";
 import { BottomBar } from "../../atoms/BottomBar/BottomBar";
 import { ProductPanel } from "../../molecules/ProductPanel/ProductPanel";
+export interface Product {
+  name: string;
+  amount: number;
+  calories: number;
+  proteins: number;
+  fats: number;
+  carbohydrates: number;
+}
 const Main = () => {
   return (
     <div className={"Main"}>
@@ -19,17 +27,34 @@ const Main = () => {
           <Search placeholder={"Wyszukaj produkt po nazwie"} />
         </div>
       </div>
-      <div className={"List"}>
+      <ul className={"List"}>
         <SmallText content={"Twój dzisiejszy dzień "} />
-        <ProductPanel customStyles={{ marginTop: "50px" }} />
-        <ProductPanel /> <ProductPanel />
-        <ProductPanel />
-        <ProductPanel />
-        <ProductPanel />
-        <ProductPanel />
-        <ProductPanel />
-        <ProductPanel />
-      </div>
+        <ProductPanel
+          customStyles={{
+            marginTop: "50px",
+            borderTop: "1px solid #252525",
+          }}
+          product={{
+            name: "Jaja kurze",
+            amount: 256,
+            calories: 50,
+            proteins: 40,
+            fats: 40,
+            carbohydrates: 20,
+          }}
+        />
+        <ProductPanel
+          product={{
+            name: "Jaja",
+            amount: 256,
+            calories: 50,
+            proteins: 40,
+            fats: 40,
+            carbohydrates: 20,
+          }}
+        />
+        <li className="SaveArea"></li>
+      </ul>
       <BottomBar calories={2000} proteins={70} fats={40} carbohydrates={50} />
     </div>
   );

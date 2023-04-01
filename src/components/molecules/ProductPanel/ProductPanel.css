@@ -1,6 +1,38 @@
 .ProductPanel {
   display: block;
   width: 100%;
-  height: 105px;
-  border-top: 1px solid #252525;
+  height: 12.7%;
+  border-bottom: 1px solid #252525;
+  color: var(--font-white);
+}
+
+li {
+  padding: 14px 9%;
+  align-items: center;
+}
+li text:nth-child(1),
+li text:nth-child(2) {
+  display: block;
+}
+li .SmallText {
+  padding: 5px 0 !important;
+}
+li div > .BigText {
+  margin-right: 17px;
+}
+/* Calories */
+li div > .BigText:nth-child(3) {
+  color: var(--color-calories);
+}
+/* Proteins */
+li div > .BigText:nth-child(4) {
+  color: var(--color-proteins);
+}
+/* Fats */
+li div > .BigText:nth-child(5) {
+  color: var(--color-fats);
+}
+/* Carbohydrates */
+li div > .BigText:nth-child(6) {
+  color: var(--color-carbohydrates);
 }

@@ -52,6 +52,14 @@
 .List .ProductPanel:nth-child(1) {
   margin-top: 20px;
 }
+ul {
+  padding: 0;
+}
+.SaveArea {
+  display: block;
+  height: 90px;
+  background-color: transparent;
+}
 @media (max-width: 420px) {
   .BottomBar {
     font-size: 14px !important;
@@ -76,4 +84,25 @@
   .List {
     top: calc(9vh + 160px);
   }
+}
+
+/* Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #454545 #000000;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 16px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #454545;
+  border-radius: 8px;
+  border: 3px none #ffffff;
 }
