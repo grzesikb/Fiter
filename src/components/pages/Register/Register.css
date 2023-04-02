@@ -18,21 +18,21 @@
 }
 
 .Logo,
-.AppButton,
+.Register .AppButton,
 .registerText {
   display: block;
   width: 100%;
 }
-.AppInput {
+.Register .AppInput {
   width: 90%;
 }
-.AppInput:nth-child(odd) {
+.Register .AppInput:nth-child(odd) {
   margin-top: 35px;
 }
-.AppInput:nth-child(even) {
+.Register .AppInput:nth-child(even) {
   margin-top: 10px;
 }
-.AppButton {
+.Register .AppButton {
   margin-top: 40px;
 }
 .Register form div {

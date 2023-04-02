@@ -1,0 +1,60 @@
+.AddProduct {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
+  background-color: var(--background);
+  justify-content: center;
+  align-items: center;
+}
+.NavBarAdd {
+  display: flex;
+  position: absolute;
+  top: 9%;
+  left: 9%;
+  right: 9%;
+}
+.NavBarAdd > div {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.NavBarAdd .AppIcon {
+  transform: scale(0.6);
+}
+.NavBarAdd .AppIcon:hover {
+  transform: scale(0.8);
+}
+.NavBarAdd .SmallText {
+  color: #fff;
+}
+.AddContent {
+  position: fixed;
+  top: 20%;
+  right: 9%;
+  left: 9%;
+}
+.AddGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-column-gap: 20px;
+  grid-row-gap: 5px;
+}
+.AddGrid .AppInput {
+  width: 100%;
+}
+/* Napis */
+.AddContent > div:nth-child(2) {
+  margin: 40px 0;
+  display: flex;
+  justify-content: center;
+}
+.AddContent .AppButton {
+  margin-top: 9%;
+  width: 100%;
+}
+.AddContent .AppInput {
+  width: 90%;
+}

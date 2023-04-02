@@ -44,7 +44,7 @@
   position: absolute;
   z-index: 1;
   width: 100%;
-  top: calc(11vh + 220px);
+  top: calc(11vh + 190px);
 }
 .List .SmallText {
   padding-left: 9%;
@@ -82,27 +82,28 @@ ul {
     height: calc(9vh + 150px);
   }
   .List {
-    top: calc(9vh + 160px);
+    top: calc(9vh + 140px);
   }
 }
+@media (min-width: 520px) {
+  /* Firefox */
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: #454545 #000000;
+  }
 
-/* Firefox */
-* {
-  scrollbar-width: auto;
-  scrollbar-color: #454545 #000000;
-}
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 16px;
+  }
 
-/* Chrome, Edge, and Safari */
-*::-webkit-scrollbar {
-  width: 16px;
-}
+  *::-webkit-scrollbar-track {
+    background: #000000;
+  }
 
-*::-webkit-scrollbar-track {
-  background: #000000;
-}
-
-*::-webkit-scrollbar-thumb {
-  background-color: #454545;
-  border-radius: 8px;
-  border: 3px none #ffffff;
+  *::-webkit-scrollbar-thumb {
+    background-color: #454545;
+    border-radius: 8px;
+    border: 3px none #ffffff;
+  }
 }

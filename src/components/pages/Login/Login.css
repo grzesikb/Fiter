@@ -17,21 +17,21 @@
 }
 
 .Logo,
-.AppButton,
+.Login .AppButton,
 .loginText {
   display: block;
   width: 100%;
 }
-.AppInput {
+.Login .AppInput {
   width: 90%;
 }
-.AppInput:nth-child(odd) {
+.Login .AppInput:nth-child(odd) {
   margin-top: 35px;
 }
-.AppInput:nth-child(even) {
+.Login .AppInput:nth-child(even) {
   margin-top: 10px;
 }
-.AppButton {
+.Login .AppButton {
   margin-top: 40px;
 }
 .Login form div {

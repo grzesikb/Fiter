@@ -1,5 +1,5 @@
 .BigText {
   font-size: 18px;
   font-weight: calc(var(--font-weight) + 100);
-  color: var(--font-white);
+  color: #fff;
 }

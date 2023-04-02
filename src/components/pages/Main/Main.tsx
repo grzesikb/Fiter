@@ -31,7 +31,7 @@ const Main = () => {
         <SmallText content={"Twój dzisiejszy dzień "} />
         <ProductPanel
           customStyles={{
-            marginTop: "50px",
+            marginTop: "30px",
             borderTop: "1px solid #252525",
           }}
           product={{

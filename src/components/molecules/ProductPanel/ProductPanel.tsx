@@ -4,6 +4,7 @@ import "./ProductPanel.css";
 import { Product } from "../../pages/Main/Main";
 import { BigText } from "../../atoms/BigText/BigText";
 import { SmallText } from "../../atoms/SmallText/SmallText";
+import { AppIcon } from "../../atoms/AppIcon/AppIcon";
 export interface Props {
   product: Product;
   onClick?: () => any;
@@ -26,6 +27,7 @@ export const ProductPanel = (props: Props) => {
         <BigText content={props.product.fats + ""} />
         <BigText content={props.product.carbohydrates + ""} />
       </div>
+      <AppIcon src={"./assets/Delete.svg"} />
     </li>
   );
 };
