@@ -1,5 +1,7 @@
 import React, { createContext, useState } from "react";
-import axios from "axios";
+import { getDocs } from "firebase/firestore";
+import { dbUsers } from "../firebaseConfig";
+import { useHistory } from "react-router-dom";
 
 interface User {
   username: string;
@@ -25,23 +27,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [user, setUser] = useState<User | null>(null);
-  console.log("eLo");
+  const history = useHistory();
   const login = async (username: string, password: string) => {
-    try {
-      const { data: users } = await axios.get<User[]>("../users.json");
-
-      const user = users.find(
-        (u) => u.username === username && u.password === password
-      );
-
-      if (user) {
-        setUser(user);
-      } else {
-        console.log("Nieprawidłowa nazwa użytkownika lub hasło");
-      }
-    } catch (error) {
-      console.log("Błąd podczas pobierania danych użytkowników", error);
-    }
+    getDocs(dbUsers)
+      .then((snapshot) => {
+        const data = snapshot.docs.map((doc) => doc.data() as User);
+        const user = data.find(
+          (u) => u.username === username && u.password === password
+        );
+        if (user) {
+          setUser(user);
+          history.push({
+            pathname: "/home",
+            state: { user },
+          });
+        } else {
+          console.log("Nieprawidłowa nazwa użytkownika lub hasło");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   const logout = () => {
