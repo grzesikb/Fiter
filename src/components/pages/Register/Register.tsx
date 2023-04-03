@@ -4,6 +4,8 @@ import { AppButton } from "../../atoms/AppButton/AppButton";
 import { SmallText } from "../../atoms/SmallText/SmallText";
 import { AppInput } from "../../atoms/AppInput/AppInput";
 import { Logo } from "../../atoms/Logo/Logo";
+import { Link } from "react-router-dom";
+
 const Register = () => {
   return (
     <div className={"Register"}>
@@ -15,7 +17,7 @@ const Register = () => {
         <AppButton textContext={"Utwórz konto"} />
         <div>
           <SmallText content={"Posiadasz już konto? "} />
-          <SmallText content={"Zaloguj się"} />
+          <SmallText content={<Link to="/auth/login">Zaloguj się</Link>} />
         </div>
       </form>
     </div>

@@ -46,7 +46,16 @@
   letter-spacing: 0.19em;
   margin-top: 18px;
 }
-
+.Login .SmallText {
+  display: inline;
+}
+.Login .SmallText a {
+  color: var(--font-gray);
+  transition: 0.2s;
+}
+.Login .SmallText a:hover {
+  color: var(--font-white);
+}
 @media (max-width: 850px) {
   .Login form {
     width: 304px;

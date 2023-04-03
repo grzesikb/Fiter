@@ -6,6 +6,8 @@ export interface Props {
   placeholder: string;
   customClassName?: string;
   customStyles?: CSS.Properties;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  data?: any;
 }
 
 export const AppInput = (props: Props) => {
@@ -15,6 +17,8 @@ export const AppInput = (props: Props) => {
       placeholder={props.placeholder}
       className={"AppInput " + props.customClassName}
       style={props.customStyles}
+      onChange={props.onChange}
+      value={props.data}
     />
   );
 };

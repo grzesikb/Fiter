@@ -1,5 +1,10 @@
 import React from "react";
-import { createBrowserRouter, Form, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Form,
+  RouterProvider,
+  Navigate,
+} from "react-router-dom";
 import Register from "./components/pages/Register/Register";
 import Login from "./components/pages/Login/Login";
 import AddProduct from "./components/pages/AddProduct/AddProduct";
@@ -14,10 +19,14 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/main",
+    path: "/home",
     element: <Main />,
-    children: [{ path: "addproduct", element: <AddProduct /> }],
   },
+  {
+    path: "/addproduct",
+    element: <AddProduct />,
+  },
+  { path: "/", element: <Navigate to="/auth/login" /> },
 ]);
 
 function App() {

@@ -48,6 +48,17 @@
   margin-top: 18px;
 }
 
+.Register .SmallText {
+  display: inline;
+}
+.Register .SmallText a {
+  color: var(--font-gray);
+  transition: 0.2s;
+}
+.Register .SmallText a:hover {
+  color: var(--font-white);
+}
+
 @media (max-width: 850px) {
   .Register form {
     width: 304px;
