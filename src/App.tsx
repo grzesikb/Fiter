@@ -18,14 +18,17 @@ function App() {
       children: [
         {
           path: "login",
-          element: <Login />,
+          element: authContext.user ? <Navigate to="/home" /> : <Login />,
         },
-        { path: "register", element: <Register /> },
+        {
+          path: "register",
+          element: authContext.user ? <Navigate to="/home" /> : <Register />,
+        },
       ],
     },
     {
       path: "/home",
-      element: authContext.user ? <Main /> : "Nie jestes zalogowny",
+      element: authContext.user ? <Main /> : <Navigate to="/auth/login" />,
     },
     {
       path: "/addproduct",
