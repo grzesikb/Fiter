@@ -5,7 +5,6 @@ import { SmallText } from "../../atoms/SmallText/SmallText";
 import { AppInput } from "../../atoms/AppInput/AppInput";
 import { Logo } from "../../atoms/Logo/Logo";
 import AuthContext from "../../../context/AuthContext";
-//import AuthContext2 from "../../../context/AuthContext2";
 import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -13,7 +12,6 @@ const Login = () => {
   const authContext = useContext(AuthContext);
   const navigate = useNavigate();
   const handleLogin = (data: { username: string; password: string }) => {
-    // console.log(data.username + " " + data.password);
     authContext.login(data.username, data.password);
   };
   useEffect(() => {
@@ -39,6 +37,7 @@ const Login = () => {
             setData((prev) => ({ ...prev, password: event.target.value }));
           }}
           data={data.password}
+          type={"password"}
         />
         <AppButton
           textContext={"Zaloguj się"}
