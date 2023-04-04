@@ -1,20 +1,81 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Register.css";
 import { AppButton } from "../../atoms/AppButton/AppButton";
 import { SmallText } from "../../atoms/SmallText/SmallText";
 import { AppInput } from "../../atoms/AppInput/AppInput";
 import { Logo } from "../../atoms/Logo/Logo";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
+import { dbUsers } from "../../../firebaseConfig";
+import { addDoc, getDocs } from "firebase/firestore";
+import AuthContext from "../../../context/AuthContext";
 
 const Register = () => {
+  const [data, setData] = useState({ username: "", password: "" });
+  const authContext = useContext(AuthContext);
+  const navigate = useNavigate();
+  const handleRegister = async (data: {
+    username: string;
+    password: string;
+  }) => {
+    let id = uuidv4();
+    await getDocs(dbUsers)
+      .then((snapshot) => {
+        const dataa = snapshot.docs.map((doc) => doc.data());
+        const userr = dataa.find((u) => u.username === data.username);
+        if (userr) {
+          console.log("Istnieje taki uzytkownik");
+        } else {
+          if (data.password === "" || data.username === "")
+            console.log("Nie moga byc puste");
+          else {
+            addDoc(dbUsers, {
+              userID: id,
+              role: "user",
+              username: data.username,
+              password: data.password,
+            });
+            authContext.login(data.username, data.password);
+          }
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    setData({ username: "", password: "" });
+  };
+
+  useEffect(() => {
+    if (authContext.user != null) {
+      return navigate("/home");
+    }
+  }, [authContext]);
+
   return (
     <div className={"Register"}>
-      <form>
+      <form onSubmit={(event) => event.preventDefault()}>
         <Logo />
         <SmallText content={"REJESTRACJA"} customClassName={"registerText"} />
-        <AppInput placeholder={"Login"} />
-        <AppInput placeholder={"Hasło"} />
-        <AppButton textContext={"Utwórz konto"} />
+        <AppInput
+          placeholder={"Login"}
+          onChange={(event) => {
+            setData((prev) => ({ ...prev, username: event.target.value }));
+          }}
+          data={data.username}
+        />
+        <AppInput
+          placeholder={"Hasło"}
+          onChange={(event) => {
+            setData((prev) => ({ ...prev, password: event.target.value }));
+          }}
+          data={data.password}
+          type={"password"}
+        />
+        <AppButton
+          textContext={"Utwórz konto"}
+          onClick={() => handleRegister(data)}
+        />
         <div>
           <SmallText content={"Posiadasz już konto? "} />
           <SmallText content={<Link to="/auth/login">Zaloguj się</Link>} />

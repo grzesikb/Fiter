@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useState } from "react";
 import { getDocs } from "firebase/firestore";
 import { dbUsers } from "../firebaseConfig";
 
@@ -28,7 +28,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [user, setUser] = useState<User | null>(null);
   const login = async (username: string, password: string) => {
-    getDocs(dbUsers)
+    await getDocs(dbUsers)
       .then((snapshot) => {
         const data = snapshot.docs.map((doc) => doc.data() as User);
         const user = data.find(

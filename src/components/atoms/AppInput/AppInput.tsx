@@ -8,12 +8,13 @@ export interface Props {
   customStyles?: CSS.Properties;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   data?: any;
+  type?: string;
 }
 
 export const AppInput = (props: Props) => {
   return (
     <input
-      type={"text"}
+      type={props.type ? props.type : "text"}
       placeholder={props.placeholder}
       className={"AppInput " + props.customClassName}
       style={props.customStyles}
