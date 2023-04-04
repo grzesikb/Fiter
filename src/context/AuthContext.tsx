@@ -1,11 +1,11 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { getDocs } from "firebase/firestore";
 import { dbUsers } from "../firebaseConfig";
-import { useHistory } from "react-router-dom";
 
 interface User {
   username: string;
   password: string;
+  userID: string;
   role: "user" | "admin";
 }
 
@@ -27,7 +27,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [user, setUser] = useState<User | null>(null);
-  const history = useHistory();
   const login = async (username: string, password: string) => {
     getDocs(dbUsers)
       .then((snapshot) => {
@@ -37,10 +36,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         );
         if (user) {
           setUser(user);
-          history.push({
-            pathname: "/home",
-            state: { user },
-          });
+          console.log("Propawna");
+          //window.location.href = "/home";
         } else {
           console.log("Nieprawidłowa nazwa użytkownika lub hasło");
         }
