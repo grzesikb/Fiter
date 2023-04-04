@@ -6,6 +6,8 @@ import { AppIcon } from "../../atoms/AppIcon/AppIcon";
 import { SmallText } from "../../atoms/SmallText/SmallText";
 import { BottomBar } from "../../atoms/BottomBar/BottomBar";
 import { ProductPanel } from "../../molecules/ProductPanel/ProductPanel";
+import { useNavigate } from "react-router";
+
 export interface Product {
   name: string;
   amount: number;
@@ -15,14 +17,21 @@ export interface Product {
   carbohydrates: number;
 }
 const Main = () => {
+  const navigate = useNavigate();
   return (
     <div className={"Main"}>
       <div className={"NavbarSpace"}>
         <div className={"Navbar"}>
           <Logo />
           <div className={"Icons"}>
-            <AppIcon src={"./assets/LogOut.svg"} />
-            <AppIcon src={"./assets/Add.svg"} />
+            <AppIcon
+              src={"./assets/LogOut.svg"}
+              onClick={() => (window.location.href = "/auth/login")}
+            />
+            <AppIcon
+              src={"./assets/Add.svg"}
+              onClick={() => navigate("/addproduct")}
+            />
           </div>
           <Search placeholder={"Wyszukaj produkt po nazwie"} />
         </div>

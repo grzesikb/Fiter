@@ -3,13 +3,14 @@ import {
   createBrowserRouter,
   RouterProvider,
   Navigate,
-  Routes,
 } from "react-router-dom";
 import Register from "./components/pages/Register/Register";
 import Login from "./components/pages/Login/Login";
 import AddProduct from "./components/pages/AddProduct/AddProduct";
 import Main from "./components/pages/Main/Main";
 import AuthContext from "./context/AuthContext";
+import { AnimatePresence, motion } from "framer-motion";
+
 function App() {
   const authContext = useContext(AuthContext);
   const router = createBrowserRouter([
@@ -32,7 +33,23 @@ function App() {
     },
     {
       path: "/addproduct",
-      element: <AddProduct />,
+      element: (
+        <AnimatePresence>
+          <motion.div
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{
+              x: "100%",
+              transition: {
+                duration: 10,
+                ease: "cubic-bezier(0.67, 0, 0.4, 1.2)",
+              },
+            }}
+          >
+            <AddProduct />
+          </motion.div>
+        </AnimatePresence>
+      ),
     },
     { path: "/", element: <Navigate to="/auth/login" /> },
   ]);
