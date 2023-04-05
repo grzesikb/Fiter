@@ -7,33 +7,34 @@ import { AppIcon } from "../../atoms/AppIcon/AppIcon";
 import { useNavigate } from "react-router";
 import { dbProducts } from "../../../firebaseConfig";
 import { addDoc } from "@firebase/firestore";
+import { v4 as uuidv4 } from "uuid";
 const AddProduct = () => {
   const navigate = useNavigate();
 
   const [dataProduct, setDataProduct] = useState({
     name: "",
-    amount: "",
     calories: "",
     proteins: "",
     fats: "",
     carbohydrates: "",
+    productID: "",
   });
 
   const handleAddProduct = async (dataProduct: {
     name: string;
-    amount: string;
     calories: string;
     proteins: string;
     fats: string;
     carbohydrates: string;
+    productID: string;
   }) => {
     await addDoc(dbProducts, {
       name: dataProduct.name,
-      amount: 100,
       calories: parseInt(dataProduct.calories),
       proteins: parseInt(dataProduct.proteins),
       fats: parseInt(dataProduct.fats),
       carbohydrates: parseInt(dataProduct.carbohydrates),
+      productID: uuidv4(),
     }).catch((error) => {
       console.error(error);
     });
