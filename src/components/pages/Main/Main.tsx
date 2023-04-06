@@ -10,6 +10,7 @@ import { useNavigate } from "react-router";
 import { dbProducts, dbUserProducts } from "../../../firebaseConfig";
 import { getDocs } from "@firebase/firestore";
 import { AuthContext } from "../../../auth/auth.context";
+import { ProductAddingPanel } from "../../molecules/ProductAddingPanel/ProductAddingPanel";
 
 export interface ProductInterface {
   productID: string | null;
@@ -28,12 +29,12 @@ export interface UserProductInterface {
 
 const Main = () => {
   const navigate = useNavigate();
-  const { dispatch, state } = useContext(AuthContext);
+  const { state } = useContext(AuthContext);
   const [dataProduct, setDataProduct] = useState<ProductInterface[]>([]);
-  const [searchState, setSeatchState] = useState({
+  const [searchState, setSearchState] = useState({
     isOn: false,
     value: "",
-    content: "Twój dzisiejszy dzień ",
+    content: "Twój dzisiejszy dzień",
   });
 
   useEffect(() => {
@@ -106,6 +107,7 @@ const Main = () => {
     carbohydrates: 0,
   });
 
+  // SEARCH & BOTTOMBAR
   useEffect(() => {
     const totalNutrientsData = dataProduct.reduce(
       (total, product) => {
@@ -125,8 +127,6 @@ const Main = () => {
       }
     );
     setTotalNutrients(totalNutrientsData);
-
-    console.log(searchState);
   }, [dataProduct, searchState]);
 
   return (
@@ -147,23 +147,50 @@ const Main = () => {
           <Search
             placeholder={"Wyszukaj produkt po nazwie"}
             onChange={(event) => {
-              setSeatchState((prev) => ({
+              setSearchState((prev) => ({
                 ...prev,
                 value: event.target.value,
               }));
             }}
             data={searchState.value}
+            handleFocusIn={() =>
+              setSearchState({
+                isOn: true,
+                value: searchState.value,
+                content: "Twoje wyszukiwania",
+              })
+            }
+            handleFocusOut={
+              () => null
+              // setSearchState({
+              //   isOn: false,
+              //   value: searchState.value,
+              //   content: "Twój dzisiejszy dzień",
+              // })
+            }
           />
         </div>
       </div>
       <ul className={"List"}>
         <SmallText content={searchState.content} />
 
-        {searchState.isOn
-          ? "Elo"
-          : dataProduct.map((product) => (
-              <ProductPanel key={Math.random()} product={product} />
-            ))}
+        {searchState.isOn ? (
+          <ProductAddingPanel
+            product={{
+              amount: 123,
+              productID: null,
+              name: "elo",
+              carbohydrates: 12,
+              calories: 1123,
+              fats: 123,
+              proteins: 122,
+            }}
+          />
+        ) : (
+          dataProduct.map((product) => (
+            <ProductPanel key={product.productID} product={product} />
+          ))
+        )}
 
         <li className="SaveArea"></li>
       </ul>

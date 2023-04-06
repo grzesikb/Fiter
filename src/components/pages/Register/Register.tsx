@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import "./Register.css";
 import { AppButton } from "../../atoms/AppButton/AppButton";
 import { SmallText } from "../../atoms/SmallText/SmallText";
@@ -12,7 +12,7 @@ import { AuthContext } from "../../../auth/auth.context";
 
 const Register = () => {
   const [data, setData] = useState({ username: "", password: "" });
-  const { dispatch, state } = useContext(AuthContext);
+  const { state } = useContext(AuthContext);
   const navigate = useNavigate();
   const handleRegister = async (data: {
     username: string;
@@ -35,6 +35,7 @@ const Register = () => {
               username: data.username,
               password: data.password,
             });
+            navigate("/auth/login");
           }
         }
       })
