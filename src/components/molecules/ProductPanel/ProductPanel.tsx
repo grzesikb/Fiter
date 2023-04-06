@@ -7,7 +7,6 @@ import { SmallText } from "../../atoms/SmallText/SmallText";
 import { AppIcon } from "../../atoms/AppIcon/AppIcon";
 export interface Props {
   product: ProductInterface;
-  amount: number;
   onClick?: () => any;
   customClassName?: string;
   customStyles?: CSS.Properties;
@@ -21,7 +20,7 @@ export const ProductPanel = (props: Props) => {
     >
       <div>
         <BigText content={props.product.name} />
-        <SmallText content={props.amount + "g"} />
+        <SmallText content={props.product.amount + "g"} />
         <BigText content={props.product.calories + ""} />
         <BigText content={props.product.proteins + ""} />
         <BigText content={props.product.fats + ""} />

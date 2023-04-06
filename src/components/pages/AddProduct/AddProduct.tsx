@@ -30,10 +30,10 @@ const AddProduct = () => {
   }) => {
     await addDoc(dbProducts, {
       name: dataProduct.name,
-      calories: parseInt(dataProduct.calories),
-      proteins: parseInt(dataProduct.proteins),
-      fats: parseInt(dataProduct.fats),
-      carbohydrates: parseInt(dataProduct.carbohydrates),
+      calories: Number(dataProduct.calories),
+      proteins: Number(dataProduct.proteins),
+      fats: Number(dataProduct.fats),
+      carbohydrates: Number(dataProduct.carbohydrates),
       productID: uuidv4(),
     }).catch((error) => {
       console.error(error);
