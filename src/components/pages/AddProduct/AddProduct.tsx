@@ -77,6 +77,7 @@ const AddProduct = () => {
                 }));
               }}
               data={dataProduct.calories}
+              type="number"
             />
             <AppInput
               placeholder="Białko"
@@ -87,6 +88,7 @@ const AddProduct = () => {
                 }));
               }}
               data={dataProduct.proteins}
+              type="number"
             />
             <AppInput
               placeholder="Tłuszcz"
@@ -97,6 +99,7 @@ const AddProduct = () => {
                 }));
               }}
               data={dataProduct.fats}
+              type="number"
             />
             <AppInput
               placeholder="Węglowodany"
@@ -107,6 +110,7 @@ const AddProduct = () => {
                 }));
               }}
               data={dataProduct.carbohydrates}
+              type="number"
             />
           </div>
           <AppButton

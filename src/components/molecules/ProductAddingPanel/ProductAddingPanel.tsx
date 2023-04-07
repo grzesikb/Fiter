@@ -11,8 +11,10 @@ export interface Props {
   product: ProductInterface;
   onClick?: () => any;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  data?: any;
   customClassName?: string;
   customStyles?: CSS.Properties;
+  amount?: number;
 }
 
 export const ProductAddingPanel = (props: Props) => {
@@ -23,13 +25,17 @@ export const ProductAddingPanel = (props: Props) => {
     >
       <div>
         <BigText content={props.product.name} />
-        <SmallText content={""} />
+        <SmallText content={props.amount ? props.amount + "g" : "100g"} />
         <BigText content={props.product.calories + ""} />
         <BigText content={props.product.proteins + ""} />
         <BigText content={props.product.fats + ""} />
         <BigText content={props.product.carbohydrates + ""} />
       </div>
-      <AppInput placeholder={"gram"} />
+      {/* <AppInput
+        placeholder={"gram"}
+        onChange={props.onChange}
+        data={props.data}
+      /> */}
       <AppIcon src={"./assets/Add.svg"} onClick={props.onClick} />
     </li>
   );

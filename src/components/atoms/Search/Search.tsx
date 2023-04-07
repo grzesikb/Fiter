@@ -9,8 +9,6 @@ export interface Props {
   onClick?: () => any;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   data?: any;
-  handleFocusIn?: () => any;
-  handleFocusOut?: () => any;
 }
 
 export const Search = (props: Props) => {
@@ -25,8 +23,6 @@ export const Search = (props: Props) => {
         onClick={props.onClick}
         onChange={props.onChange}
         value={props.data}
-        onFocus={props.handleFocusIn}
-        onBlur={props.handleFocusOut}
       />
     </div>
   );
