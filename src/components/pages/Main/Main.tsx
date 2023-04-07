@@ -1,4 +1,4 @@
-import React from "react";
+import { useContext, useEffect, useState } from "react";
 import "./Main.css";
 import { Search } from "../../atoms/Search/Search";
 import { Logo } from "../../atoms/Logo/Logo";
@@ -6,7 +6,16 @@ import { AppIcon } from "../../atoms/AppIcon/AppIcon";
 import { SmallText } from "../../atoms/SmallText/SmallText";
 import { BottomBar } from "../../atoms/BottomBar/BottomBar";
 import { ProductPanel } from "../../molecules/ProductPanel/ProductPanel";
-export interface Product {
+import { useNavigate } from "react-router";
+import { dbProducts, dbUserProducts } from "../../../firebaseConfig";
+import { getDocs } from "@firebase/firestore";
+import { AuthContext } from "../../../auth/auth.context";
+import { ProductAddingPanel } from "../../molecules/ProductAddingPanel/ProductAddingPanel";
+import Fuse from "fuse.js";
+import { AppInput } from "../../atoms/AppInput/AppInput";
+
+export interface ProductInterface {
+  productID: string | null;
   name: string;
   amount: number;
   calories: number;
@@ -14,48 +23,280 @@ export interface Product {
   fats: number;
   carbohydrates: number;
 }
+export interface UserProductInterface {
+  userID: string;
+  productID: string;
+  amount: number;
+}
+
 const Main = () => {
+  const navigate = useNavigate();
+  const { state } = useContext(AuthContext);
+  const [dataProduct, setDataProduct] = useState<ProductInterface[]>([]);
+
+  useEffect(() => {
+    getDocs(dbUserProducts)
+      .then((snapshot) => {
+        const allUsersProducts = snapshot.docs.map(
+          (doc) => doc.data() as UserProductInterface
+        );
+        const userProductsObject = allUsersProducts.filter(
+          (u) => u.userID === state.user?.userID
+        );
+        if (userProductsObject) {
+          getDocs(dbProducts)
+            .then((snapshot) => {
+              const allProducts = snapshot.docs.map(
+                (doc) => doc.data() as ProductInterface
+              );
+
+              let product: any[] = [];
+              let product2: any[] = [];
+
+              userProductsObject.forEach((item) => {
+                allProducts.forEach((item2) => {
+                  if (item.productID === item2.productID) product.push(item2);
+                });
+              });
+              userProductsObject.forEach((item) => {
+                product.forEach((item2) => {
+                  if (item.productID === item2.productID)
+                    product2.push({
+                      ...item2,
+                      amount: item.amount,
+                      calories: Math.round(
+                        (item2.calories * item.amount) / 100
+                      ),
+                      proteins:
+                        Math.round(
+                          ((item2.proteins * item.amount) / 100) * 10
+                        ) / 10,
+                      fats:
+                        Math.round(((item2.fats * item.amount) / 100) * 10) /
+                        10,
+                      carbohydrates:
+                        Math.round(
+                          ((item2.carbohydrates * item.amount) / 100) * 10
+                        ) / 10,
+                    });
+                });
+              });
+              if (product2) {
+                setDataProduct(product2);
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        } else {
+          console.log("Uzytkownik nie posiada na liscie zadnych produktow");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  const [totalNutrients, setTotalNutrients] = useState({
+    calories: 0,
+    proteins: 0,
+    fats: 0,
+    carbohydrates: 0,
+  });
+
+  const [searchState, setSearchState] = useState({
+    isOn: false,
+    value: "",
+    amount: "",
+    content: "Twój dzisiejszy dzień",
+  });
+  const [searchResult, setSearchResult] = useState<ProductInterface[]>([]);
+  const searchProducts = (
+    allProducts: ProductInterface[],
+    searchString: string
+  ): ProductInterface[] => {
+    const fuseOptions = {
+      keys: ["name"], // Wyszukiwanie będzie przeprowadzane po polu 'name'
+      includeScore: true, // Włącz wyniki oceny podobieństwa
+      threshold: 0.4, // Wartość progowa oceny podobieństwa
+      ignoreLocation: true, // Ignoruj położenie dopasowania
+    };
+    const fuse = new Fuse(allProducts, fuseOptions);
+    const results = fuse.search(searchString);
+    const searchResult = results
+      .filter(
+        (result) =>
+          result.score !== undefined && result.score < fuseOptions.threshold
+      ) // Dodatkowe sprawdzenie czy wynik posiada score
+      .map((result) => result.item); // Mapowanie do oryginalnych elementów z tablicy allProducts
+    return searchResult;
+  };
+
+  useEffect(() => {
+    //BOTTOM BAR
+    const totalNutrientsData = dataProduct.reduce(
+      (total, product) => {
+        return {
+          calories: ((total.calories + product.calories) * 10) / 10,
+          proteins: ((total.proteins + product.proteins) * 10) / 10,
+          fats: ((total.fats + product.fats) * 10) / 10,
+          carbohydrates:
+            ((total.carbohydrates + product.carbohydrates) * 10) / 10,
+        };
+      },
+      {
+        calories: 0,
+        proteins: 0,
+        fats: 0,
+        carbohydrates: 0,
+      }
+    );
+    setTotalNutrients(totalNutrientsData);
+
+    //SEARCH
+    const today: Date = new Date();
+    const day: string = today.getDate().toString().padStart(2, "0");
+    const month: string = (today.getMonth() + 1).toString().padStart(2, "0");
+    const year: string = today.getFullYear().toString().substr(-2);
+    if (searchState.value === "") {
+      setSearchState({
+        isOn: false,
+        value: searchState.value,
+        amount: "100",
+        content: `Twój dzień - ${day}.${month}.${year}`,
+      });
+    } else {
+      setSearchState({
+        isOn: true,
+        value: searchState.value,
+        amount: searchState.amount,
+        content: "Twoje wyszukiwania",
+      });
+
+      getDocs(dbProducts)
+        .then((snapshot) => {
+          const allProducts = snapshot.docs.map(
+            (doc) => doc.data() as ProductInterface
+          );
+          const searchResult = searchProducts(allProducts, searchState.value);
+          setSearchResult(searchResult);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      if (searchState.amount === "")
+        setSearchState({
+          isOn: searchState.isOn,
+          value: searchState.value,
+          amount: "100",
+          content: searchState.content,
+        });
+      if (parseFloat(searchState.amount) > 9999)
+        setSearchState({
+          isOn: searchState.isOn,
+          value: searchState.value,
+          amount: "100",
+          content: searchState.content,
+        });
+    }
+  }, [dataProduct, searchState.value, searchState.amount]);
+
   return (
     <div className={"Main"}>
       <div className={"NavbarSpace"}>
         <div className={"Navbar"}>
           <Logo />
           <div className={"Icons"}>
-            <AppIcon src={"./assets/LogOut.svg"} />
-            <AppIcon src={"./assets/Add.svg"} />
+            <AppIcon
+              src={"./assets/LogOut.svg"}
+              onClick={() => (window.location.href = "/auth/login")}
+            />
+            <AppIcon
+              src={"./assets/Add.svg"}
+              onClick={() => navigate("/addproduct")}
+            />
           </div>
-          <Search placeholder={"Wyszukaj produkt po nazwie"} />
+          <Search
+            placeholder={"Wyszukaj produkt po nazwie"}
+            onChange={(event) => {
+              setSearchState((prev) => ({
+                ...prev,
+                value: event.target.value,
+              }));
+            }}
+            data={searchState.value}
+          />
+          <SmallText content={searchState.content} />
+          {searchState.isOn ? (
+            <SmallText content={"Ilość (g):"} customClassName="amountText" />
+          ) : (
+            ""
+          )}
+          {searchState.isOn ? (
+            <AppInput
+              placeholder="gram"
+              customClassName="amountOfProduct"
+              type="number"
+              onChange={(event) => {
+                setSearchState((prev) => ({
+                  ...prev,
+                  amount: event.target.value,
+                }));
+              }}
+              data={searchState.amount}
+            />
+          ) : (
+            ""
+          )}
         </div>
       </div>
       <ul className={"List"}>
-        <SmallText content={"Twój dzisiejszy dzień "} />
-        <ProductPanel
-          customStyles={{
-            marginTop: "30px",
-            borderTop: "1px solid #252525",
-          }}
-          product={{
-            name: "Jaja kurze",
-            amount: 256,
-            calories: 50,
-            proteins: 40,
-            fats: 40,
-            carbohydrates: 20,
-          }}
-        />
-        <ProductPanel
-          product={{
-            name: "Jaja",
-            amount: 256,
-            calories: 50,
-            proteins: 40,
-            fats: 40,
-            carbohydrates: 20,
-          }}
-        />
+        {searchState.isOn
+          ? searchResult.map((searchProduct) => (
+              <ProductAddingPanel
+                key={searchProduct.productID}
+                product={{
+                  ...searchProduct,
+                  calories: Math.round(
+                    (searchProduct.calories * parseFloat(searchState.amount)) /
+                      100
+                  ),
+                  proteins:
+                    Math.round(
+                      ((searchProduct.proteins *
+                        parseFloat(searchState.amount)) /
+                        100) *
+                        10
+                    ) / 10,
+                  fats:
+                    Math.round(
+                      ((searchProduct.fats * parseFloat(searchState.amount)) /
+                        100) *
+                        10
+                    ) / 10,
+                  carbohydrates:
+                    Math.round(
+                      ((searchProduct.carbohydrates *
+                        parseFloat(searchState.amount)) /
+                        100) *
+                        10
+                    ) / 10,
+                }}
+                amount={parseFloat(searchState.amount)}
+              />
+            ))
+          : dataProduct.map((product) => (
+              <ProductPanel key={product.productID} product={product} />
+            ))}
+
         <li className="SaveArea"></li>
       </ul>
-      <BottomBar calories={2000} proteins={70} fats={40} carbohydrates={50} />
+      <BottomBar
+        calories={totalNutrients.calories}
+        proteins={totalNutrients.proteins}
+        fats={totalNutrients.fats}
+        carbohydrates={totalNutrients.carbohydrates}
+      />
     </div>
   );
 };

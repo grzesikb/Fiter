@@ -27,6 +27,7 @@ li div > .BigText {
 }
 /* Calories */
 li div > .BigText:nth-child(3) {
+  display: inline !important;
   color: var(--color-calories);
 }
 /* Proteins */

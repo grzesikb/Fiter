@@ -8,11 +8,11 @@
 .Navbar {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
+  grid-template-rows: repeat(3, 1fr);
   grid-column-gap: 0px;
   grid-row-gap: 0px;
   position: fixed;
-  top: 11vh;
+  top: 9vh;
   left: 9%;
   right: 9%;
   background-color: var(--background);
@@ -37,7 +37,7 @@
   z-index: 2;
   position: fixed;
   width: 100vw;
-  height: calc(11vh + 200px);
+  height: calc(11vh + 230px);
   background-color: var(--background);
 }
 .List {
@@ -46,10 +46,27 @@
   width: 100%;
   top: calc(11vh + 190px);
 }
-.List .SmallText {
-  padding-left: 9%;
+.Navbar .SmallText {
+  grid-area: 3 / 1 / 4 / 2;
+  position: absolute;
+  left: 0;
+  top: 60%;
 }
-.List .ProductPanel:nth-child(1) {
+.Navbar > .amountOfProduct {
+  grid-area: 3 / 2 / 4 / 3;
+  position: absolute;
+  padding-left: 10px;
+  right: 0;
+  top: 57%;
+  height: 20px;
+  width: 40px;
+}
+.Navbar > .amountText {
+  grid-area: 3 / 2 / 4 / 3;
+  left: calc(100% - 110px);
+}
+.List .ProductPanel:nth-child(1),
+.List .ProductAddingPanel:nth-child(1) {
   margin-top: 20px;
 }
 ul {
@@ -57,7 +74,7 @@ ul {
 }
 .SaveArea {
   display: block;
-  height: 90px;
+  height: 80px;
   background-color: transparent;
 }
 @media (max-width: 420px) {
@@ -76,7 +93,7 @@ ul {
   }
   .Navbar {
     top: 6vh;
-    grid-template-rows: repeat(2, 0fr);
+    /* grid-template-rows: repeat(2, 0fr); */
   }
   .NavbarSpace {
     height: calc(9vh + 150px);
@@ -84,26 +101,11 @@ ul {
   .List {
     top: calc(9vh + 140px);
   }
-}
-@media (min-width: 520px) {
-  /* Firefox */
-  * {
-    scrollbar-width: auto;
-    scrollbar-color: #454545 #000000;
+  .Search {
+    margin-top: 10px;
   }
-
-  /* Chrome, Edge, and Safari */
-  *::-webkit-scrollbar {
-    width: 16px;
-  }
-
-  *::-webkit-scrollbar-track {
-    background: #000000;
-  }
-
-  *::-webkit-scrollbar-thumb {
-    background-color: #454545;
-    border-radius: 8px;
-    border: 3px none #ffffff;
+  .List .ProductPanel:nth-child(1),
+  .List .ProductAddingPanel:nth-child(1) {
+    margin-top: 20px;
   }
 }

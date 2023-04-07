@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import "./Register.css";
 import { AppButton } from "../../atoms/AppButton/AppButton";
 import { SmallText } from "../../atoms/SmallText/SmallText";
@@ -8,11 +8,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { dbUsers } from "../../../firebaseConfig";
 import { addDoc, getDocs } from "firebase/firestore";
-import AuthContext from "../../../context/AuthContext";
+import { AuthContext } from "../../../auth/auth.context";
 
 const Register = () => {
   const [data, setData] = useState({ username: "", password: "" });
-  const authContext = useContext(AuthContext);
+  const { state } = useContext(AuthContext);
   const navigate = useNavigate();
   const handleRegister = async (data: {
     username: string;
@@ -35,7 +35,7 @@ const Register = () => {
               username: data.username,
               password: data.password,
             });
-            authContext.login(data.username, data.password);
+            navigate("/auth/login");
           }
         }
       })
@@ -46,11 +46,9 @@ const Register = () => {
     setData({ username: "", password: "" });
   };
 
-  useEffect(() => {
-    if (authContext.user != null) {
-      return navigate("/home");
-    }
-  }, [authContext]);
+  if (state.user != null) {
+    navigate("/home");
+  }
 
   return (
     <div className={"Register"}>

@@ -9,12 +9,12 @@ export interface Props {
 
 export const Logo = (props: Props) => {
   return (
-    <text
+    <div
       onClick={props.onClick}
       className={"Logo " + props.customClassName}
       style={props.customStyles}
     >
       Fiter
-    </text>
+    </div>
   );
 };

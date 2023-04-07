@@ -1,24 +1,50 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import "./Login.css";
 import { AppButton } from "../../atoms/AppButton/AppButton";
 import { SmallText } from "../../atoms/SmallText/SmallText";
 import { AppInput } from "../../atoms/AppInput/AppInput";
 import { Logo } from "../../atoms/Logo/Logo";
-import AuthContext from "../../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
+import { getDocs } from "firebase/firestore";
+import { dbUsers } from "../../../firebaseConfig";
+import { AuthContext } from "../../../auth/auth.context";
+import { ACTIONS, UserInterface } from "../../../auth/auth.interface";
 
 const Login = () => {
   const [data, setData] = useState({ username: "", password: "" });
-  const authContext = useContext(AuthContext);
   const navigate = useNavigate();
-  const handleLogin = (data: { username: string; password: string }) => {
-    authContext.login(data.username, data.password);
+  const { dispatch, state } = useContext(AuthContext);
+
+  const handleLogin = async (data: { username: string; password: string }) => {
+    await getDocs(dbUsers)
+      .then((snapshot) => {
+        const dataa = snapshot.docs.map((doc) => doc.data() as UserInterface);
+        const user = dataa.find(
+          (u) => u.username === data.username && u.password === data.password
+        );
+        if (user) {
+          dispatch({
+            type: ACTIONS.loadUser,
+            payload: {
+              username: user.username,
+              password: user.password,
+              userID: user.userID,
+            },
+          });
+          console.log("Propawna");
+        } else {
+          console.log("Nieprawidłowa nazwa użytkownika lub hasło");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
-  useEffect(() => {
-    if (authContext.user != null) {
-      return navigate("/home");
-    }
-  }, [authContext]);
+
+  if (state.user != null) {
+    navigate("/home");
+  }
+
   return (
     <div className={"Login"}>
       <form onSubmit={(event) => event.preventDefault()}>
