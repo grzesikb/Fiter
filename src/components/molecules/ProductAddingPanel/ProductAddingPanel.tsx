@@ -5,7 +5,6 @@ import { ProductInterface } from "../../pages/Main/Main";
 import { BigText } from "../../atoms/BigText/BigText";
 import { SmallText } from "../../atoms/SmallText/SmallText";
 import { AppIcon } from "../../atoms/AppIcon/AppIcon";
-import { AppInput } from "../../atoms/AppInput/AppInput";
 
 export interface Props {
   product: ProductInterface;
@@ -31,11 +30,7 @@ export const ProductAddingPanel = (props: Props) => {
         <BigText content={props.product.fats + ""} />
         <BigText content={props.product.carbohydrates + ""} />
       </div>
-      {/* <AppInput
-        placeholder={"gram"}
-        onChange={props.onChange}
-        data={props.data}
-      /> */}
+
       <AppIcon src={"./assets/Add.svg"} onClick={props.onClick} />
     </li>
   );

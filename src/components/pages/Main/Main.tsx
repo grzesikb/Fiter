@@ -199,7 +199,24 @@ const Main = () => {
           content: searchState.content,
         });
     }
+    console.log(UserProduct);
   }, [dataProduct, searchState.value, searchState.amount]);
+
+  const [UserProduct, setUserProduct] = useState<UserProductInterface>({
+    amount: 100,
+    productID: "",
+    userID: "",
+  });
+
+  const handleProductClick = (productId: string | null, ammount: string) => {
+    if (state.user?.userID && productId && ammount)
+      setUserProduct({
+        ...UserProduct,
+        amount: parseFloat(ammount),
+        productID: productId,
+        userID: state.user?.userID,
+      });
+  };
 
   return (
     <div className={"Main"}>
@@ -283,6 +300,12 @@ const Main = () => {
                     ) / 10,
                 }}
                 amount={parseFloat(searchState.amount)}
+                onClick={() =>
+                  handleProductClick(
+                    searchProduct.productID,
+                    searchState.amount
+                  )
+                }
               />
             ))
           : dataProduct.map((product) => (
