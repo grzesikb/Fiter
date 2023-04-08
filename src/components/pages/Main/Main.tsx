@@ -54,6 +54,12 @@ const Main = () => {
 
   const [rerenderState, setRerenderState] = useState<number>(0);
 
+  //TODAY DATA
+  const today: Date = new Date();
+  const day: string = today.getDate().toString().padStart(2, "0");
+  const month: string = (today.getMonth() + 1).toString().padStart(2, "0");
+  const year: string = today.getFullYear().toString().substr(-2);
+
   useEffect(() => {
     getDocs(dbUserProducts)
       .then((snapshot) => {
@@ -159,11 +165,6 @@ const Main = () => {
     );
     setTotalNutrients(totalNutrientsData);
 
-    //SEARCH
-    const today: Date = new Date();
-    const day: string = today.getDate().toString().padStart(2, "0");
-    const month: string = (today.getMonth() + 1).toString().padStart(2, "0");
-    const year: string = today.getFullYear().toString().substr(-2);
     if (searchState.value === "") {
       setSearchState({
         isOn: false,

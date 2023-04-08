@@ -33,7 +33,7 @@
 .BottomBarSpecifies div:nth-child(4) {
   color: var(--color-carbohydrates);
 }
-.BottomBarSpecifies text {
+.BottomBarSpecifies span {
   display: block;
   color: var(--font-grey);
 }

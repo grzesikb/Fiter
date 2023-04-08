@@ -10,12 +10,12 @@ export interface Props {
 
 export const BigText = (props: Props) => {
   return (
-    <text
+    <span
       onClick={props.onClick}
       className={"BigText " + props.customClassName}
       style={props.customStyles}
     >
       {props.content}
-    </text>
+    </span>
   );
 };

@@ -21,19 +21,19 @@ export const BottomBar = (props: Props) => {
       <div className="BottomBarSpecifies">
         <div>
           Kalorie
-          <text>{props.calories}</text>
+          <span>{props.calories}</span>
         </div>
         <div>
           Białko
-          <text>{props.proteins}</text>
+          <span>{props.proteins}</span>
         </div>
         <div>
           Tłuszcze
-          <text>{props.fats}</text>
+          <span>{props.fats}</span>
         </div>
         <div>
           Węgle
-          <text>{props.carbohydrates}</text>
+          <span>{props.carbohydrates}</span>
         </div>
       </div>
     </div>
