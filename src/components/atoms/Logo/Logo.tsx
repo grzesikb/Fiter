@@ -5,6 +5,7 @@ export interface Props {
   onClick?: () => any;
   customClassName?: string;
   customStyles?: CSS.Properties;
+  edit?: string;
 }
 
 export const Logo = (props: Props) => {
@@ -14,7 +15,7 @@ export const Logo = (props: Props) => {
       className={"Logo " + props.customClassName}
       style={props.customStyles}
     >
-      Fiter
+      {props.edit ? props.edit : "Fiter"}
     </div>
   );
 };
