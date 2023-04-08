@@ -11,6 +11,7 @@ import Main from "./components/pages/Main/Main";
 import { AnimatePresence, motion } from "framer-motion";
 import { AuthContext } from "./auth/auth.context";
 import Login from "./components/pages/Login/Login";
+import Admin from "./components/pages/Admin/Admin";
 
 function App() {
   const { state } = useContext(AuthContext);
@@ -31,7 +32,15 @@ function App() {
     },
     {
       path: "/home",
-      element: state.user ? <Main /> : <Navigate to="/auth/login" />,
+      element: state.user ? (
+        state.user.isAdmin ? (
+          <Admin />
+        ) : (
+          <Main />
+        )
+      ) : (
+        <Navigate to="/auth/login" />
+      ),
     },
     {
       path: "/addproduct",

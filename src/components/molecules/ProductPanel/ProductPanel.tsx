@@ -10,6 +10,7 @@ export interface Props {
   onClick?: () => any;
   customClassName?: string;
   customStyles?: CSS.Properties;
+  displayGrams?: boolean;
 }
 
 export const ProductPanel = (props: Props) => {
@@ -20,7 +21,9 @@ export const ProductPanel = (props: Props) => {
     >
       <div>
         <BigText content={props.product.name} />
-        <SmallText content={props.product.amount + "g"} />
+        <SmallText
+          content={props.displayGrams ? "" : props.product.amount + "g"}
+        />
         <BigText content={props.product.calories + ""} />
         <BigText content={props.product.proteins + ""} />
         <BigText content={props.product.fats + ""} />

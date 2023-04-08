@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./Admin.css";
 import { Search } from "../../atoms/Search/Search";
 import { Logo } from "../../atoms/Logo/Logo";
@@ -7,7 +7,6 @@ import { ProductPanel } from "../../molecules/ProductPanel/ProductPanel";
 import { useNavigate } from "react-router";
 import { dbProducts, dbUserProducts } from "../../../firebaseConfig";
 import { getDocs } from "@firebase/firestore";
-import { AuthContext } from "../../../auth/auth.context";
 import Fuse from "fuse.js";
 import { deleteDoc, query, where } from "firebase/firestore";
 
@@ -29,8 +28,6 @@ const Admin = () => {
   const [searchState, setSearchState] = useState({
     isOn: false,
     value: "",
-    amount: "",
-    content: "Twój dzisiejszy dzień",
   });
 
   const [searchResult, setSearchResult] = useState<ProductInterface[]>([]);
@@ -47,10 +44,7 @@ const Admin = () => {
         let product: any[] = [];
 
         allProducts.forEach((item) => {
-          product.push({
-            ...item,
-            amount: 100,
-          });
+          product.push(item);
         });
         if (product) setDataProduct(product);
       })
@@ -82,23 +76,15 @@ const Admin = () => {
 
   useEffect(() => {
     //SEARCH
-    const today: Date = new Date();
-    const day: string = today.getDate().toString().padStart(2, "0");
-    const month: string = (today.getMonth() + 1).toString().padStart(2, "0");
-    const year: string = today.getFullYear().toString().substr(-2);
     if (searchState.value === "") {
       setSearchState({
         isOn: false,
         value: searchState.value,
-        amount: "100",
-        content: `Twój dzień - ${day}.${month}.${year}`,
       });
     } else {
       setSearchState({
         isOn: true,
         value: searchState.value,
-        amount: searchState.amount,
-        content: "Twoje wyszukiwania",
       });
 
       getDocs(dbProducts)
@@ -112,30 +98,21 @@ const Admin = () => {
         .catch((error) => {
           console.error(error);
         });
-      if (searchState.amount === "")
-        setSearchState({
-          isOn: searchState.isOn,
-          value: searchState.value,
-          amount: "100",
-          content: searchState.content,
-        });
-      if (parseFloat(searchState.amount) > 9999)
-        setSearchState({
-          isOn: searchState.isOn,
-          value: searchState.value,
-          amount: "100",
-          content: searchState.content,
-        });
     }
-  }, [dataProduct, searchState.value, searchState.amount]);
+  }, [dataProduct, searchState.value]);
 
   const handleDeleteProductFromDatabase = async (product: ProductInterface) => {
-    const q = query(
+    const q = query(dbProducts, where("productID", "==", product.productID));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach(async (doc) => {
+      await deleteDoc(doc.ref);
+    });
+    const q2 = query(
       dbUserProducts,
       where("productID", "==", product.productID)
     );
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach(async (doc) => {
+    const querySnapshot2 = await getDocs(q2);
+    querySnapshot2.forEach(async (doc) => {
       await deleteDoc(doc.ref);
     });
     setRerenderState(rerenderState + 1);
@@ -169,13 +146,23 @@ const Admin = () => {
         </div>
       </div>
       <ul className={"List"}>
-        {dataProduct.map((product) => (
-          <ProductPanel
-            key={product.productID}
-            product={product}
-            onClick={() => handleDeleteProductFromDatabase(product)}
-          />
-        ))}
+        {searchState.isOn
+          ? searchResult.map((product) => (
+              <ProductPanel
+                key={product.productID}
+                product={product}
+                onClick={() => handleDeleteProductFromDatabase(product)}
+                displayGrams={true}
+              />
+            ))
+          : dataProduct.map((product) => (
+              <ProductPanel
+                key={product.productID}
+                product={product}
+                onClick={() => handleDeleteProductFromDatabase(product)}
+                displayGrams={true}
+              />
+            ))}
       </ul>
     </div>
   );

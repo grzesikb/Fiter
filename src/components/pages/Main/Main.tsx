@@ -242,7 +242,8 @@ const Main = () => {
   const handleDeleteProductFromList = async (product: ProductInterface) => {
     const q = query(
       dbUserProducts,
-      where("productID", "==", product.productID)
+      where("productID", "==", product.productID),
+      where("userID", "==", state.user?.userID)
     );
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach(async (doc) => {
