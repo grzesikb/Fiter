@@ -22,3 +22,4 @@ src/firebaseConfig.js
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+src/firebaseConfig.ts
