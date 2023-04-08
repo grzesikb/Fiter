@@ -9,6 +9,8 @@ import { dbProducts, dbUserProducts } from "../../../firebaseConfig";
 import { getDocs } from "@firebase/firestore";
 import Fuse from "fuse.js";
 import { deleteDoc, query, where } from "firebase/firestore";
+import { Alert } from "../../atoms/Alert/Alert";
+import toast from "react-hot-toast";
 
 export interface ProductInterface {
   productID: string | null;
@@ -115,6 +117,7 @@ const Admin = () => {
     querySnapshot2.forEach(async (doc) => {
       await deleteDoc(doc.ref);
     });
+    toast.success("Pomyślnie usunięto produkt - " + product.name);
     setRerenderState(rerenderState + 1);
   };
 
@@ -164,6 +167,7 @@ const Admin = () => {
               />
             ))}
       </ul>
+      <Alert />
     </div>
   );
 };

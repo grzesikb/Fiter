@@ -31,24 +31,33 @@ const AddProduct = () => {
     productID: string;
   }) => {
     if (
-      (dataProduct.name &&
-        dataProduct.calories &&
-        dataProduct.proteins &&
-        dataProduct.fats &&
-        dataProduct.carbohydrates) !== ""
+      dataProduct.name !== "" &&
+      dataProduct.calories !== "" &&
+      dataProduct.proteins !== "" &&
+      dataProduct.fats !== "" &&
+      dataProduct.carbohydrates !== ""
     ) {
-      await addDoc(dbProducts, {
-        name: dataProduct.name,
-        calories: Number(dataProduct.calories),
-        proteins: Number(dataProduct.proteins),
-        fats: Number(dataProduct.fats),
-        carbohydrates: Number(dataProduct.carbohydrates),
-        productID: uuidv4(),
-      }).catch((error) => {
-        console.error(error);
-      });
-      toast.success("Dodano produkt do bazy");
-      setTimeout(() => navigate("/home"), 1000);
+      if (
+        Number(dataProduct.calories) > 0 &&
+        Number(dataProduct.proteins) > 0 &&
+        Number(dataProduct.fats) > 0 &&
+        Number(dataProduct.carbohydrates) > 0
+      ) {
+        await addDoc(dbProducts, {
+          name: dataProduct.name,
+          calories: Number(dataProduct.calories),
+          proteins: Number(dataProduct.proteins),
+          fats: Number(dataProduct.fats),
+          carbohydrates: Number(dataProduct.carbohydrates),
+          productID: uuidv4(),
+        }).catch((error) => {
+          console.error(error);
+        });
+        toast.success("Dodano produkt do bazy");
+        setTimeout(() => navigate("/home"), 1000);
+      } else {
+        toast.error("Wartości składników odżywczych nie mogą być ujemne!!");
+      }
     } else {
       toast.error("Wypełnij wszystkie pola!!");
     }
