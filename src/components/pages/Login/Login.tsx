@@ -9,6 +9,8 @@ import { getDocs } from "firebase/firestore";
 import { dbUsers } from "../../../firebaseConfig";
 import { AuthContext } from "../../../auth/auth.context";
 import { ACTIONS, UserInterface } from "../../../auth/auth.interface";
+import toast from "react-hot-toast";
+import { Alert } from "../../atoms/Alert/Alert";
 
 const Login = () => {
   const [data, setData] = useState({ username: "", password: "" });
@@ -32,9 +34,8 @@ const Login = () => {
               isAdmin: user.isAdmin,
             },
           });
-          console.log("Propawna");
         } else {
-          console.log("Nieprawidłowa nazwa użytkownika lub hasło");
+          toast.error("Nieprawidłowa nazwa użytkownika lub hasło");
         }
       })
       .catch((error) => {
@@ -78,6 +79,7 @@ const Login = () => {
           />
         </div>
       </form>
+      <Alert />
     </div>
   );
 };

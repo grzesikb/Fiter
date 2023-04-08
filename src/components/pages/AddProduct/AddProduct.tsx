@@ -8,6 +8,8 @@ import { useNavigate } from "react-router";
 import { dbProducts } from "../../../firebaseConfig";
 import { addDoc } from "@firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
+import { Alert } from "../../atoms/Alert/Alert";
+import toast from "react-hot-toast";
 const AddProduct = () => {
   const navigate = useNavigate();
 
@@ -28,17 +30,28 @@ const AddProduct = () => {
     carbohydrates: string;
     productID: string;
   }) => {
-    await addDoc(dbProducts, {
-      name: dataProduct.name,
-      calories: Number(dataProduct.calories),
-      proteins: Number(dataProduct.proteins),
-      fats: Number(dataProduct.fats),
-      carbohydrates: Number(dataProduct.carbohydrates),
-      productID: uuidv4(),
-    }).catch((error) => {
-      console.error(error);
-    });
-    return navigate("/home");
+    if (
+      (dataProduct.name &&
+        dataProduct.calories &&
+        dataProduct.proteins &&
+        dataProduct.fats &&
+        dataProduct.carbohydrates) !== ""
+    ) {
+      await addDoc(dbProducts, {
+        name: dataProduct.name,
+        calories: Number(dataProduct.calories),
+        proteins: Number(dataProduct.proteins),
+        fats: Number(dataProduct.fats),
+        carbohydrates: Number(dataProduct.carbohydrates),
+        productID: uuidv4(),
+      }).catch((error) => {
+        console.error(error);
+      });
+      toast.success("Dodano produkt do bazy");
+      setTimeout(() => navigate("/home"), 1000);
+    } else {
+      toast.error("Wypełnij wszystkie pola!!");
+    }
   };
 
   return (
@@ -121,6 +134,7 @@ const AddProduct = () => {
           />
         </div>
       </div>
+      <Alert />
     </form>
   );
 };
