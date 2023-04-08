@@ -31,7 +31,7 @@ const Register = () => {
           else {
             addDoc(dbUsers, {
               userID: id,
-              role: "user",
+              isAdmin: false,
               username: data.username,
               password: data.password,
             });

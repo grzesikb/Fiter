@@ -4,6 +4,7 @@ export interface UserInterface {
   username: string;
   password: string;
   userID: string;
+  isAdmin: boolean;
 }
 export interface AuthStateInterface {
   user: UserInterface | null;

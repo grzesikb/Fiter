@@ -13,6 +13,7 @@ import { AuthContext } from "../../../auth/auth.context";
 import { ProductAddingPanel } from "../../molecules/ProductAddingPanel/ProductAddingPanel";
 import Fuse from "fuse.js";
 import { AppInput } from "../../atoms/AppInput/AppInput";
+import { addDoc, deleteDoc, query, updateDoc, where } from "firebase/firestore";
 
 export interface ProductInterface {
   productID: string | null;
@@ -32,7 +33,26 @@ export interface UserProductInterface {
 const Main = () => {
   const navigate = useNavigate();
   const { state } = useContext(AuthContext);
+
   const [dataProduct, setDataProduct] = useState<ProductInterface[]>([]);
+
+  const [searchState, setSearchState] = useState({
+    isOn: false,
+    value: "",
+    amount: "",
+    content: "Twój dzisiejszy dzień",
+  });
+
+  const [searchResult, setSearchResult] = useState<ProductInterface[]>([]);
+
+  const [totalNutrients, setTotalNutrients] = useState({
+    calories: 0,
+    proteins: 0,
+    fats: 0,
+    carbohydrates: 0,
+  });
+
+  const [rerenderState, setRerenderState] = useState<number>(0);
 
   useEffect(() => {
     getDocs(dbUserProducts)
@@ -95,22 +115,8 @@ const Main = () => {
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  }, [searchState.isOn, rerenderState]);
 
-  const [totalNutrients, setTotalNutrients] = useState({
-    calories: 0,
-    proteins: 0,
-    fats: 0,
-    carbohydrates: 0,
-  });
-
-  const [searchState, setSearchState] = useState({
-    isOn: false,
-    value: "",
-    amount: "",
-    content: "Twój dzisiejszy dzień",
-  });
-  const [searchResult, setSearchResult] = useState<ProductInterface[]>([]);
   const searchProducts = (
     allProducts: ProductInterface[],
     searchString: string
@@ -127,8 +133,8 @@ const Main = () => {
       .filter(
         (result) =>
           result.score !== undefined && result.score < fuseOptions.threshold
-      ) // Dodatkowe sprawdzenie czy wynik posiada score
-      .map((result) => result.item); // Mapowanie do oryginalnych elementów z tablicy allProducts
+      )
+      .map((result) => result.item);
     return searchResult;
   };
 
@@ -199,23 +205,50 @@ const Main = () => {
           content: searchState.content,
         });
     }
-    console.log(UserProduct);
   }, [dataProduct, searchState.value, searchState.amount]);
 
-  const [UserProduct, setUserProduct] = useState<UserProductInterface>({
-    amount: 100,
-    productID: "",
-    userID: "",
-  });
-
-  const handleProductClick = (productId: string | null, ammount: string) => {
-    if (state.user?.userID && productId && ammount)
-      setUserProduct({
-        ...UserProduct,
-        amount: parseFloat(ammount),
-        productID: productId,
-        userID: state.user?.userID,
+  const handleProductAddToList = async (
+    productId: string | null,
+    amountProduct: string
+  ) => {
+    let updateAlert: boolean = false;
+    dataProduct.forEach((item) => {
+      if (item.productID === productId) updateAlert = true;
+    });
+    if (state.user?.userID && productId && amountProduct) {
+      if (updateAlert) {
+        const q = query(dbUserProducts, where("productID", "==", productId));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach(async (doc) => {
+          await updateDoc(doc.ref, {
+            amount: amountProduct,
+          });
+        });
+      } else {
+        await addDoc(dbUserProducts, {
+          amount: amountProduct,
+          userID: state.user?.userID,
+          productID: productId,
+        });
+      }
+      setSearchState({
+        ...searchState,
+        isOn: false,
+        value: "",
       });
+    } else console.log("Błąd dodawania produktu do listy");
+  };
+
+  const handleDeleteProductFromList = async (product: ProductInterface) => {
+    const q = query(
+      dbUserProducts,
+      where("productID", "==", product.productID)
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach(async (doc) => {
+      await deleteDoc(doc.ref);
+    });
+    setRerenderState(rerenderState + 1);
   };
 
   return (
@@ -301,7 +334,7 @@ const Main = () => {
                 }}
                 amount={parseFloat(searchState.amount)}
                 onClick={() =>
-                  handleProductClick(
+                  handleProductAddToList(
                     searchProduct.productID,
                     searchState.amount
                   )
@@ -309,7 +342,11 @@ const Main = () => {
               />
             ))
           : dataProduct.map((product) => (
-              <ProductPanel key={product.productID} product={product} />
+              <ProductPanel
+                key={product.productID}
+                product={product}
+                onClick={() => handleDeleteProductFromList(product)}
+              />
             ))}
 
         <li className="SaveArea"></li>

@@ -29,6 +29,7 @@ const Login = () => {
               username: user.username,
               password: user.password,
               userID: user.userID,
+              isAdmin: user.isAdmin,
             },
           });
           console.log("Propawna");
