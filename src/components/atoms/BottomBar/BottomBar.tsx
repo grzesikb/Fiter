@@ -24,7 +24,7 @@ export const BottomBar = (props: Props) => {
           <span>{props.calories}</span>
         </div>
         <div>
-          Białko
+          Białka
           <span>{props.proteins}</span>
         </div>
         <div>
@@ -32,7 +32,7 @@ export const BottomBar = (props: Props) => {
           <span>{props.fats}</span>
         </div>
         <div>
-          Węgle
+          Węgl.
           <span>{props.carbohydrates}</span>
         </div>
       </div>

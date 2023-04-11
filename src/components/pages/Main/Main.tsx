@@ -163,7 +163,13 @@ const Main = () => {
         carbohydrates: 0,
       }
     );
-    setTotalNutrients(totalNutrientsData);
+    const totalNutrientsDataFixed = {
+      calories: Number(totalNutrientsData.calories.toFixed(2)),
+      proteins: Number(totalNutrientsData.proteins.toFixed(2)),
+      fats: Number(totalNutrientsData.fats.toFixed(2)),
+      carbohydrates: Number(totalNutrientsData.carbohydrates.toFixed(2)),
+    };
+    setTotalNutrients(totalNutrientsDataFixed);
 
     if (searchState.value === "") {
       setSearchState({

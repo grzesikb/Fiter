@@ -4,6 +4,10 @@
   height: 12.7%;
   border-bottom: 1px solid #252525;
   color: var(--font-white);
+  transition: var(--transition);
+}
+.ProductPanel:hover {
+  background-color: #101010;
 }
 .ProductPanel .AppIcon {
   position: absolute;

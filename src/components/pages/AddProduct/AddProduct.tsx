@@ -38,10 +38,10 @@ const AddProduct = () => {
       dataProduct.carbohydrates !== ""
     ) {
       if (
-        Number(dataProduct.calories) > 0 &&
-        Number(dataProduct.proteins) > 0 &&
-        Number(dataProduct.fats) > 0 &&
-        Number(dataProduct.carbohydrates) > 0
+        Number(dataProduct.calories) >= 0 &&
+        Number(dataProduct.proteins) >= 0 &&
+        Number(dataProduct.fats) >= 0 &&
+        Number(dataProduct.carbohydrates) >= 0
       ) {
         await addDoc(dbProducts, {
           name: dataProduct.name,
