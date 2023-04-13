@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Login.css";
 import { AppButton } from "../../atoms/AppButton/AppButton";
 import { SmallText } from "../../atoms/SmallText/SmallText";
@@ -19,7 +19,7 @@ const Login = () => {
 
   const handleLogin = async (data: { username: string; password: string }) => {
     await getDocs(dbUsers)
-      .then((snapshot) => {
+      .then(async (snapshot) => {
         const dataa = snapshot.docs.map((doc) => doc.data() as UserInterface);
         const user = dataa.find(
           (u) => u.username === data.username && u.password === data.password
@@ -42,7 +42,6 @@ const Login = () => {
         console.error(error);
       });
   };
-
   if (state.user != null) {
     navigate("/home");
   }

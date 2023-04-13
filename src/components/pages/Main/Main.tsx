@@ -14,6 +14,7 @@ import { ProductAddingPanel } from "../../molecules/ProductAddingPanel/ProductAd
 import Fuse from "fuse.js";
 import { AppInput } from "../../atoms/AppInput/AppInput";
 import { addDoc, deleteDoc, query, updateDoc, where } from "firebase/firestore";
+import { error } from "console";
 
 export interface ProductInterface {
   productID: string | null;
@@ -25,6 +26,7 @@ export interface ProductInterface {
   carbohydrates: number;
 }
 export interface UserProductInterface {
+  data: string;
   userID: string;
   productID: string;
   amount: number;
@@ -59,16 +61,18 @@ const Main = () => {
   const day: string = today.getDate().toString().padStart(2, "0");
   const month: string = (today.getMonth() + 1).toString().padStart(2, "0");
   const year: string = today.getFullYear().toString().substr(-2);
+  const formatedData = `${day}.${month}.${year}`;
 
   useEffect(() => {
     getDocs(dbUserProducts)
-      .then((snapshot) => {
+      .then(async (snapshot) => {
         const allUsersProducts = snapshot.docs.map(
           (doc) => doc.data() as UserProductInterface
         );
         const userProductsObject = allUsersProducts.filter(
           (u) => u.userID === state.user?.userID
         );
+
         if (userProductsObject) {
           getDocs(dbProducts)
             .then((snapshot) => {
@@ -176,7 +180,7 @@ const Main = () => {
         isOn: false,
         value: searchState.value,
         amount: "100",
-        content: `Twój dzień - ${day}.${month}.${year}`,
+        content: `Twój dzień - ${formatedData}`,
       });
     } else {
       setSearchState({
@@ -233,6 +237,7 @@ const Main = () => {
         });
       } else {
         await addDoc(dbUserProducts, {
+          data: formatedData,
           amount: amountProduct,
           userID: state.user?.userID,
           productID: productId,
@@ -258,6 +263,31 @@ const Main = () => {
     });
     setRerenderState(rerenderState + 1);
   };
+
+  const deleteOld = async () => {
+    if (state.user?.userID) {
+      await getDocs(dbUserProducts)
+        .then((snapshot) => {
+          const allUsersProducts = snapshot.docs.map((doc) => {
+            const data = doc.data() as UserProductInterface;
+            return { ...data, ref: doc.ref };
+          });
+          const oldUserProducts = allUsersProducts.filter(
+            (u) => u.userID === state.user?.userID && u.data !== formatedData
+          );
+          oldUserProducts.forEach(async (doc) => {
+            await deleteDoc(doc.ref);
+          });
+          setRerenderState(rerenderState + 1);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else console.log("NIE MA STATE.USER");
+  };
+  useEffect(() => {
+    deleteOld();
+  }, [state?.user?.userID]);
 
   return (
     <div className={"Main"}>
