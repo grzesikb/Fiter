@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import { useContext } from "react";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -16,7 +16,6 @@ import { SecurityContext } from "./security/SecurityProvider";
 function App() {
   const { state } = useContext(AuthContext);
   const { render } = useContext(SecurityContext);
-
   const router = createBrowserRouter([
     {
       path: "/auth",
@@ -74,7 +73,6 @@ function App() {
       ),
     },
   ]);
-
   return render ? (
     <RouterProvider router={router} />
   ) : (
