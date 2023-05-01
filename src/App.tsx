@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -7,14 +7,15 @@ import {
 import Register from "./components/pages/Register/Register";
 import AddProduct from "./components/pages/AddProduct/AddProduct";
 import Main from "./components/pages/Main/Main";
-//import AuthContext from "./context/AuthContext";
 import { AnimatePresence, motion } from "framer-motion";
 import { AuthContext } from "./auth/auth.context";
 import Login from "./components/pages/Login/Login";
 import Admin from "./components/pages/Admin/Admin";
+import { SecurityContext } from "./security/SecurityProvider";
 
 function App() {
   const { state } = useContext(AuthContext);
+  const { render } = useContext(SecurityContext);
 
   const router = createBrowserRouter([
     {
@@ -65,7 +66,13 @@ function App() {
     { path: "/", element: <Navigate to="/auth/login" /> },
   ]);
 
-  return <RouterProvider router={router} />;
+  return render ? (
+    <RouterProvider router={router} />
+  ) : (
+    <div style={{ color: "white" }}>
+      LABS - NO ACCESS PERMISSIONS - BARTŁOMIEJ GRZESIK 2023©
+    </div>
+  );
 }
 
 export default App;
