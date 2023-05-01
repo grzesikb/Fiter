@@ -63,7 +63,16 @@ function App() {
         </AnimatePresence>
       ),
     },
-    { path: "/", element: <Navigate to="/auth/login" /> },
+    {
+      path: "/",
+      element: render ? (
+        <Navigate to="/auth/login" />
+      ) : (
+        <div style={{ color: "white" }}>
+          LABS - NO ACCESS PERMISSIONS - BARTŁOMIEJ GRZESIK 2023©
+        </div>
+      ),
+    },
   ]);
 
   return render ? (
