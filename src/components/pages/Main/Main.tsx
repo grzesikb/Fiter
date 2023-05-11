@@ -14,7 +14,8 @@ import { ProductAddingPanel } from "../../molecules/ProductAddingPanel/ProductAd
 import Fuse from "fuse.js";
 import { AppInput } from "../../atoms/AppInput/AppInput";
 import { addDoc, deleteDoc, query, updateDoc, where } from "firebase/firestore";
-import { error } from "console";
+import Help from "../../atoms/Help/Help";
+import { Alert } from "../../atoms/Alert/Alert";
 
 export interface ProductInterface {
   productID: string | null;
@@ -389,12 +390,19 @@ const Main = () => {
 
         <li className="SaveArea"></li>
       </ul>
+
       <BottomBar
         calories={totalNutrients.calories}
         proteins={totalNutrients.proteins}
         fats={totalNutrients.fats}
         carbohydrates={totalNutrients.carbohydrates}
       />
+      <AppIcon
+        src={"./assets/Help.svg"}
+        onClick={() => Help()}
+        customClassName="HelpButton"
+      />
+      <Alert />
     </div>
   );
 };
