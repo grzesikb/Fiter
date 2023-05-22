@@ -1,4 +1,4 @@
-# Fiter
+![Fiter](https://i.postimg.cc/4xyp88P2/LOGO2.png)
 
 Diet planner app. Inspired by the popular fitatu app. Fiter is an application that allows users to track their daily consumption, including the amount of calories consumed, protein, fat, carbohydrates
 
