@@ -6,7 +6,7 @@ import { AppInput } from "../../atoms/AppInput/AppInput";
 import { Logo } from "../../atoms/Logo/Logo";
 import { Link, useNavigate } from "react-router-dom";
 import { getDocs } from "firebase/firestore";
-import { dbUsers } from "../../../firebaseConfig";
+import { dbUsers } from "../../../firebaseInit";
 import { AuthContext } from "../../../auth/auth.context";
 import { ACTIONS, UserInterface } from "../../../auth/auth.interface";
 import toast from "react-hot-toast";

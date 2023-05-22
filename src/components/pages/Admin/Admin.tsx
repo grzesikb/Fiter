@@ -5,7 +5,7 @@ import { Logo } from "../../atoms/Logo/Logo";
 import { AppIcon } from "../../atoms/AppIcon/AppIcon";
 import { ProductPanel } from "../../molecules/ProductPanel/ProductPanel";
 import { useNavigate } from "react-router";
-import { dbProducts, dbUserProducts } from "../../../firebaseConfig";
+import { dbProducts, dbUserProducts } from "../../../firebaseInit";
 import { getDocs } from "@firebase/firestore";
 import Fuse from "fuse.js";
 import { deleteDoc, query, where } from "firebase/firestore";

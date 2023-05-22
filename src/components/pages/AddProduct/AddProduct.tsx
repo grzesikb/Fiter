@@ -5,7 +5,7 @@ import { SmallText } from "../../atoms/SmallText/SmallText";
 import { AppInput } from "../../atoms/AppInput/AppInput";
 import { AppIcon } from "../../atoms/AppIcon/AppIcon";
 import { useNavigate } from "react-router";
-import { dbProducts } from "../../../firebaseConfig";
+import { dbProducts } from "../../../firebaseInit";
 import { addDoc } from "@firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 import { Alert } from "../../atoms/Alert/Alert";

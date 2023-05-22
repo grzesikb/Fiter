@@ -7,7 +7,7 @@ import { SmallText } from "../../atoms/SmallText/SmallText";
 import { BottomBar } from "../../atoms/BottomBar/BottomBar";
 import { ProductPanel } from "../../molecules/ProductPanel/ProductPanel";
 import { useNavigate } from "react-router";
-import { dbProducts, dbUserProducts } from "../../../firebaseConfig";
+import { dbProducts, dbUserProducts } from "../../../firebaseInit";
 import { getDocs } from "@firebase/firestore";
 import { AuthContext } from "../../../auth/auth.context";
 import { ProductAddingPanel } from "../../molecules/ProductAddingPanel/ProductAddingPanel";

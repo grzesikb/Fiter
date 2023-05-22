@@ -6,7 +6,7 @@ import { AppInput } from "../../atoms/AppInput/AppInput";
 import { Logo } from "../../atoms/Logo/Logo";
 import { Link, useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import { dbUsers } from "../../../firebaseConfig";
+import { dbUsers } from "../../../firebaseInit";
 import { addDoc, getDocs } from "firebase/firestore";
 import { AuthContext } from "../../../auth/auth.context";
 import { Alert } from "../../atoms/Alert/Alert";
